@@ -1,0 +1,63 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.metrics import calinski_harabasz_score
+from sklearn.metrics import davies_bouldin_score
+from sklearn.metrics.cluster import contingency_matrix
+
+
+n_components = 2
+random_state = 0
+pca = PCA(n_components=n_components, 
+          random_state=random_state)
+def do_Pca(Z):
+    L = pca.fit_transform(Z)
+    return L
+
+def do_Kmeans(Z):
+    n_cluster = 2
+    random_state = 0
+    cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(Z)
+    #查看每个样本对应的类
+    y_pred = cluster.labels_
+    y_pred
+    #使用部分数据预测质心
+    pre = cluster.fit_predict(Z)
+    pre == y_pred
+    #质心
+    centroid = cluster.cluster_centers_
+    centroid
+    centroid.shape
+    #总距离平方和
+    inertia = cluster.inertia_
+    inertia
+    print("轮廓系数silhouette_score(0-1，越高越好) = " + str(silhouette_score(Z,y_pred)))
+    print("卡林斯基哈拉巴斯指数calinski_harabasz_score(越高越好) = " + str(calinski_harabasz_score(Z,y_pred)))
+    print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " + str(davies_bouldin_score(Z,y_pred)))
+    #print("权变矩阵contingency_matrix如下")
+    #print(contingency_matrix(Z,y_pred)
+    
+    color = ["red","blue"]
+    fig, ax1 = plt.subplots(1)
+
+    for i in range(n_cluster):
+        ax1.scatter(Z[y_pred==i, 0], Z[y_pred==i, 1]
+           ,marker='o'
+           ,s=8
+           ,c=color[i]
+           )
+        ax1.scatter(centroid[:,0],centroid[:,1]
+           ,marker="x"
+           ,s=15
+           ,c="black")
+    plt.show()
+
+    #因实验本身的目的，通过改变n_cluster分簇数量来影响inertia来评估分类数量效果不好
+    #轮廓系数silhouette_score对聚类的评估有一定参考性
+    #卡林斯基哈拉巴斯指数calinski_harabasz_score，优点快
+    #戴维斯布尔丁指数davies_bouldin_score，优点：评价准确度相对高，稳定性好；缺点：较慢，对质点的选择敏感
+    #对新加入的数据进行预测，以已有的数据所构建的模型
+    #kmeans.predict([[0, 0], [1, 1]])
+    
