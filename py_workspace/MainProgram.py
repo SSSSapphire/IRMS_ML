@@ -1,6 +1,7 @@
 import pandas as pd
 import pca_moudle
 import numpy as np
+import kmeans_constrained_moudle
 import matplotlib.pyplot as plt
 from IPython.display import display
 from sklearn.preprocessing import StandardScaler
@@ -33,3 +34,6 @@ plt.show()
 
 print("Kmeans聚类")
 Kmeans = pca_moudle.do_Kmeans(L)
+
+print("KmeansConstrained聚类")
+Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(L)
