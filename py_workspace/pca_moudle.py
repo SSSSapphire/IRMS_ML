@@ -7,7 +7,7 @@ from sklearn.metrics import calinski_harabasz_score
 from sklearn.metrics import davies_bouldin_score
 from sklearn.metrics.cluster import contingency_matrix
 
-
+tempArray = np.array([['C_D1_0_2'],['C_D1_1'],['C_D1_2'],['C_D1_3'],['C_D1_4']])
 n_components = 2
 random_state = 0
 pca = PCA(n_components=n_components, 
@@ -41,13 +41,13 @@ def do_Kmeans(Z):
     
     color = ["red","blue"]
     fig, ax1 = plt.subplots(1)
-
     for i in range(n_cluster):
         ax1.scatter(Z[y_pred==i, 0], Z[y_pred==i, 1]
            ,marker='o'
            ,s=8
            ,c=color[i]
            )
+        #ax1.text(Z[y_pred==i, 0], Z[y_pred==i, 1],tempArray[i],fontsize=12, color="r",style="italic",weight="light",verticalalignment='center',horizontalalignment='right',rotation=90)
         ax1.scatter(centroid[:,0],centroid[:,1]
            ,marker="x"
            ,s=15
