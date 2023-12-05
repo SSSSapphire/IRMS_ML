@@ -8,8 +8,8 @@ from sklearn.metrics import davies_bouldin_score
 from sklearn.metrics.cluster import contingency_matrix
 
 tempArray = np.array([['C_D1_0_2'],['C_D1_1'],['C_D1_2'],['C_D1_3'],['C_D1_4']])
-n_components = 2
-random_state = 0
+n_components = 31
+random_state = 9527
 pca = PCA(n_components=n_components, 
           random_state=random_state)
 def do_Pca(Z):
