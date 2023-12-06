@@ -29,10 +29,11 @@ np.savetxt("ImputerDf.csv",imputerDf,'%.18e',delimiter=' ')
 
 #提取Identifier序列
 print("提取序列")
-csvread = csv.reader(df)
-for column in csvread:
-    print(column[0])
-#tempArray = arr.array('u',['C_D1_0_2'],['C_D1_1'],['C_D1_2'],['C_D1_3'],['C_D1_4'])
+firstList = xl_data['Identifier']
+print(firstList)
+print("次序列")
+for i in range(30):
+    print(firstList[1,i])
 
 
 #print("平均差与标准差")
@@ -41,7 +42,6 @@ df_stats.style.format("{:.2f}")
 #display(df_stats)
 
 #归一化
-#X = df.iloc[:,1:]
 scaler = StandardScaler()
 Z_sk = scaler.fit_transform(imputerDf)
 print("归一化结果")
@@ -49,14 +49,17 @@ display(Z_sk)
 np.savetxt("Normalazation.csv",Z_sk,'%.18e',delimiter=' ')
 
 print("PCA降维结果")
-L = pca_moudle.do_Pca(Z_sk)
-display(L)
-plt.scatter(L[:, 0], L[:, 1])
+pcaResult = pca_moudle.do_Pca(Z_sk)
+display(pcaResult)
+plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
+for i in range(31):
+     plt.annotate(firstList[:, 1] ,(pcaResult[:, 0], pcaResult[:, 1]), textcoords="offset points", xytext=(0,10), ha='center')
+
 plt.show()
 
 print("Kmeans聚类")
-Kmeans = pca_moudle.do_Kmeans(L)
+Kmeans = pca_moudle.do_Kmeans(pcaResult,firstList)
 
 print("KmeansConstrained聚类")
-Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(L)
+#Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(L)

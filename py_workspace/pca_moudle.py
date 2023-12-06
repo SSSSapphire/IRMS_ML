@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
@@ -13,10 +14,11 @@ random_state = 9527
 pca = PCA(n_components=n_components, 
           random_state=random_state)
 def do_Pca(Z):
-    L = pca.fit_transform(Z)
+    pca_2d = PCA(2, random_state=random_state)
+    L = pca_2d.fit_transform(Z)
     return L
 
-def do_Kmeans(Z):
+def do_Kmeans(Z,firstList):
     n_cluster = 2
     random_state = 0
     cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(Z)
@@ -47,11 +49,10 @@ def do_Kmeans(Z):
            ,s=8
            ,c=color[i]
            )
-        #ax1.text(Z[y_pred==i, 0], Z[y_pred==i, 1],tempArray[i],fontsize=12, color="r",style="italic",weight="light",verticalalignment='center',horizontalalignment='right',rotation=90)
-        ax1.scatter(centroid[:,0],centroid[:,1]
-           ,marker="x"
-           ,s=15
-           ,c="black")
+    ax1.scatter(centroid[:,0],centroid[:,1]
+        ,marker="x"
+        ,s=15
+        ,c="black")
     plt.show()
 
     #因实验本身的目的，通过改变n_cluster分簇数量来影响inertia来评估分类数量效果不好
