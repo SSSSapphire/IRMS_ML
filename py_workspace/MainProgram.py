@@ -33,7 +33,7 @@ firstList = xl_data['Identifier']
 print(firstList)
 print("次序列")
 for i in range(30):
-    print(firstList[1,i])
+    print(firstList[i])
 
 
 #print("平均差与标准差")
@@ -53,8 +53,8 @@ pcaResult = pca_moudle.do_Pca(Z_sk)
 display(pcaResult)
 plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
-for i in range(31):
-     plt.annotate(firstList[:, 1] ,(pcaResult[:, 0], pcaResult[:, 1]), textcoords="offset points", xytext=(0,10), ha='center')
+for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
+    plt.text(x,y,label)
 
 plt.show()
 

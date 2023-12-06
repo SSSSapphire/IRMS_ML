@@ -49,6 +49,8 @@ def do_Kmeans(Z,firstList):
            ,s=8
            ,c=color[i]
            )
+        for label,x,y in zip(firstList,Z[y_pred==i, 0],Z[y_pred==i, 1]):
+            plt.text(x,y,label)
     ax1.scatter(centroid[:,0],centroid[:,1]
         ,marker="x"
         ,s=15
