@@ -57,11 +57,10 @@ plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
 for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
-plt.show()
 
 #tSNE降维
 print("tSNE降维结果")
-tsne_Result = tSNE_moudle.do_tSNE(Z_sk)
+tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
 
 
 #合并为series
@@ -73,8 +72,8 @@ tsne_Result = tSNE_moudle.do_tSNE(Z_sk)
 
 
 print("Kmeans聚类")
-Kmeans = pca_moudle.do_Kmeans(pcaResult,firstList)
-
+#Kmeans_PCA = pca_moudle.do_Kmeans(pcaResult,firstList)
+Kmeans_tSNE = pca_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
 print("KmeansConstrained聚类")
