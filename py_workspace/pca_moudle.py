@@ -19,6 +19,7 @@ def do_Pca(Z):
     return L
 
 def do_Kmeans(Z,firstList):
+    print(firstList.index)
     n_cluster = 2
     random_state = 0
     cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(Z)
@@ -43,14 +44,22 @@ def do_Kmeans(Z,firstList):
     
     color = ["red","blue"]
     fig, ax1 = plt.subplots(1)
+    tempCounter = 0
     for i in range(n_cluster):
         ax1.scatter(Z[y_pred==i, 0], Z[y_pred==i, 1]
            ,marker='o'
            ,s=8
            ,c=color[i]
            )
-        for label,x,y in zip(firstList,Z[y_pred==i, 0],Z[y_pred==i, 1]):
-            plt.text(x,y,label)
+        print("i=",i)
+        if(i==0):
+            for label,x,y in zip(firstList,Z[y_pred==0, 0],Z[y_pred==0, 1]):
+                plt.text(x,y,label)
+                tempCounter = tempCounter + 1
+        if(i==1):
+            firstList1 = firstList[tempCounter:firstList.size] 
+            for label,x,y in zip(firstList1,Z[y_pred==1, 0],Z[y_pred==1, 1]):
+                plt.text(x,y,label)
     ax1.scatter(centroid[:,0],centroid[:,1]
         ,marker="x"
         ,s=15
