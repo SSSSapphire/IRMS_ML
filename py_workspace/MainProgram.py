@@ -1,13 +1,16 @@
 import csv
 import array as arr
+from operator import index
 import pandas as pd
 import pca_moudle
+import tSNE_moudle
 import numpy as np
 import kmeans_constrained_moudle
 import matplotlib.pyplot as plt
 from IPython.display import display
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
+
 
 #excel转csv
 xl_data = pd.read_excel('1113_31S_Con.xlsx')
@@ -32,9 +35,8 @@ print("提取序列")
 firstList = xl_data['Identifier']
 print(firstList)
 print("次序列")
-for i in range(30):
+for i in range(firstList.size):
     print(firstList[i])
-
 
 #print("平均差与标准差")
 df_stats = df.describe().loc[['mean','std']]
@@ -48,6 +50,7 @@ print("归一化结果")
 display(Z_sk)
 np.savetxt("Normalazation.csv",Z_sk,'%.18e',delimiter=' ')
 
+#PCA降维
 print("PCA降维结果")
 pcaResult = pca_moudle.do_Pca(Z_sk)
 display(pcaResult)
@@ -55,11 +58,25 @@ plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
 for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
-
 plt.show()
+
+#tSNE降维
+print("tSNE降维结果")
+tsne_Result = tSNE_moudle.do_tSNE(Z_sk)
+
+
+#合并为series
+#transFirstListDF = firstList.to_frame()
+#transFirstListDF['index2'] = pcaResult[0]
+#transFirstListDF = transFirstListDF.set_index('index2')
+
+#display(transFirstListDF)
+
 
 print("Kmeans聚类")
 Kmeans = pca_moudle.do_Kmeans(pcaResult,firstList)
+
+
 
 print("KmeansConstrained聚类")
 #Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(L)
