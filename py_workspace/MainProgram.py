@@ -31,15 +31,11 @@ np.savetxt("ImputerDf.csv",imputerDf,'%.18e',delimiter=' ')
 print("提取序列")
 firstList = xl_data['Identifier']
 print(firstList)
-print("次序列")
-for i in range(30):
-    print(firstList[i])
 
 
-#print("平均差与标准差")
+#平均差与标准差
 df_stats = df.describe().loc[['mean','std']]
 df_stats.style.format("{:.2f}")
-#display(df_stats)
 
 #归一化
 scaler = StandardScaler()
@@ -55,7 +51,6 @@ plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
 for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
-
 plt.show()
 
 print("Kmeans聚类")

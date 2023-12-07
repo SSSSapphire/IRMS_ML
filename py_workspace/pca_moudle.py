@@ -23,6 +23,7 @@ def do_Kmeans(Z,firstList):
     n_cluster = 2
     random_state = 0
     cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(Z)
+    print(cluster)
     #查看每个样本对应的类
     y_pred = cluster.labels_
     y_pred
@@ -51,7 +52,6 @@ def do_Kmeans(Z,firstList):
            ,s=8
            ,c=color[i]
            )
-        print("i=",i)
         if(i==0):
             for label,x,y in zip(firstList,Z[y_pred==0, 0],Z[y_pred==0, 1]):
                 plt.text(x,y,label)
