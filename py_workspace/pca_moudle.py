@@ -13,23 +13,23 @@ n_components = 31
 random_state = 9527
 pca = PCA(n_components=n_components, 
           random_state=random_state)
-def do_Pca(Z):
+def do_Pca(X):
     pca_2d = PCA(2, random_state=random_state)
-    L = pca_2d.fit_transform(Z)
+    L = pca_2d.fit_transform(X)
     return L
 
-def do_Kmeans(Z,firstList):
+def do_Kmeans(X,firstList):
     print(firstList.index)
     n_cluster = 2
     random_state = 0
-    cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(Z)
+    cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(X)
     print(cluster)
     #查看每个样本对应的类
-    y_pred = cluster.labels_
-    y_pred
+    pred = cluster.labels_
+    pred
     #使用部分数据预测质心
-    pre = cluster.fit_predict(Z)
-    pre == y_pred
+    pre = cluster.fit_predict(X)
+    pre == pred
     #质心
     centroid = cluster.cluster_centers_
     centroid
@@ -37,28 +37,29 @@ def do_Kmeans(Z,firstList):
     #总距离平方和
     inertia = cluster.inertia_
     inertia
-    print("轮廓系数silhouette_score(0-1，越高越好) = " + str(silhouette_score(Z,y_pred)))
-    print("卡林斯基哈拉巴斯指数calinski_harabasz_score(越高越好) = " + str(calinski_harabasz_score(Z,y_pred)))
-    print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " + str(davies_bouldin_score(Z,y_pred)))
+    print("轮廓系数silhouette_score(0-1，越高越好) = " + str(silhouette_score(X,pred)))
+    print("卡林斯基哈拉巴斯指数calinski_harabasz_score(越高越好) = " + str(calinski_harabasz_score(X,pred)))
+    print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " + str(davies_bouldin_score(X,pred)))
     #print("权变矩阵contingency_matrix如下")
-    #print(contingency_matrix(Z,y_pred)
+    #print(contingency_matrix(X,y_pred)
     
     color = ["red","blue"]
     fig, ax1 = plt.subplots(1)
     tempCounter = 0
     for i in range(n_cluster):
-        ax1.scatter(Z[y_pred==i, 0], Z[y_pred==i, 1]
+        print("xxxxxxxxxxxxxxxxxxx", n_cluster,i,pre)
+        ax1.scatter(X[pred==i, 0], X[pred==i, 1]
            ,marker='o'
            ,s=8
            ,c=color[i]
            )
         if(i==0):
-            for label,x,y in zip(firstList,Z[y_pred==0, 0],Z[y_pred==0, 1]):
+            for label,x,y in zip(firstList,X[pred==0, 0],X[pred==0, 1]):
                 plt.text(x,y,label)
                 tempCounter = tempCounter + 1
         if(i==1):
             firstList1 = firstList[tempCounter:firstList.size] 
-            for label,x,y in zip(firstList1,Z[y_pred==1, 0],Z[y_pred==1, 1]):
+            for label,x,y in zip(firstList1,X[pred==1, 0],X[pred==1, 1]):
                 plt.text(x,y,label)
     ax1.scatter(centroid[:,0],centroid[:,1]
         ,marker="x"

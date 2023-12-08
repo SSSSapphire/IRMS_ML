@@ -77,4 +77,4 @@ Kmeans_tSNE = pca_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
 print("KmeansConstrained聚类")
-#Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(L)
+Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(pcaResult,firstList)
