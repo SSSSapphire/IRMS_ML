@@ -1,11 +1,11 @@
-import csv
 import array as arr
 from operator import index
 import pandas as pd
 import pca_moudle
 import tSNE_moudle
-import numpy as np
+import k_means_moudle
 import kmeans_constrained_moudle
+import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import display
 from sklearn.preprocessing import StandardScaler
@@ -61,9 +61,9 @@ for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
 
 #组装pcaResult与firstList为DataFrame
-pd_firstList = firstList.to_frame()
-display(pd_firstList)
-pcaResult_1 = pd.dataFrame(pcaReuslt, columns = "scatterIndex")
+#pd_firstList = firstList.to_frame()
+#display(pd_firstList)
+#pcaResult_1 = pd.dataFrame(pcaReuslt, columns = "scatterIndex")
 #pcaResult_1['Identifier'] = pd_firstList
 #display(pcaResult_1)
 
@@ -82,7 +82,7 @@ tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
 
 print("Kmeans聚类")
 #Kmeans_PCA = pca_moudle.do_Kmeans(pcaResult,firstList)
-Kmeans_tSNE = pca_moudle.do_Kmeans(tSNE_Result,firstList)
+Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
 print("KmeansConstrained聚类")
