@@ -23,9 +23,9 @@ def do_Kmeans(X,firstList):
     #总距离平方和
     inertia = cluster.inertia_
     inertia
-    print("轮廓系数silhouette_score(0-1，越高越好) = " + str(silhouette_score(X,pred)))
+    print("轮廓系数silhouette_score(0-1，越高越好) = " +              str(silhouette_score(X,pred)))
     print("卡林斯基哈拉巴斯指数calinski_harabasz_score(越高越好) = " + str(calinski_harabasz_score(X,pred)))
-    print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " + str(davies_bouldin_score(X,pred)))
+    print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " +        str(davies_bouldin_score(X,pred)))
     #print("权变矩阵contingency_matrix如下")
     #print(contingency_matrix(X,y_pred)
     
@@ -51,6 +51,7 @@ def do_Kmeans(X,firstList):
         ,marker="x"
         ,s=15
         ,c="black")
+    plt.title('Kmeans_result')
     plt.show()
     
     #因实验本身的目的，通过改变n_cluster分簇数量来影响inertia来评估分类数量效果不好

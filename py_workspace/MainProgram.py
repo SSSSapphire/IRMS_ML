@@ -55,8 +55,10 @@ print("PCA降维结果")
 pcaResult = pca_moudle.do_Pca(Z_sk)
 display(pcaResult)
 print(type(pcaResult))
+plt.subplot(1,2,1)
 plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
+plt.title('PCA_Result')
 for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
 
@@ -70,6 +72,11 @@ for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
 #tSNE降维
 print("tSNE降维结果")
 tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
+plt.subplot(1,2,2)
+plt.scatter(tSNE_Result[:, 0],tSNE_Result[:, 1])
+plt.axis('equal')
+plt.title('tSNE_Result')
+plt.show()
 
 
 #合并为series
@@ -81,7 +88,7 @@ tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
 
 
 print("Kmeans聚类")
-#Kmeans_PCA = pca_moudle.do_Kmeans(pcaResult,firstList)
+Kmeans_PCA = k_means_moudle.do_Kmeans(pcaResult,firstList)
 Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
