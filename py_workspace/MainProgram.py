@@ -34,6 +34,7 @@ np.savetxt("ImputerDf.csv",imputerDf,'%.18e',delimiter=' ')
 print("提取序列")
 firstList = xl_data['Identifier']
 print(firstList)
+print(type(firstList))
 print("次序列")
 for i in range(firstList.size):
     print(firstList[i])
@@ -53,10 +54,18 @@ np.savetxt("Normalazation.csv",Z_sk,'%.18e',delimiter=' ')
 print("PCA降维结果")
 pcaResult = pca_moudle.do_Pca(Z_sk)
 display(pcaResult)
+print(type(pcaResult))
 plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
 plt.axis('equal')
 for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
     plt.text(x,y,label)
+
+#组装pcaResult与firstList为DataFrame
+pd_firstList = firstList.to_frame()
+display(pd_firstList)
+pcaResult_1 = pd.dataFrame(pcaReuslt, columns = "scatterIndex")
+#pcaResult_1['Identifier'] = pd_firstList
+#display(pcaResult_1)
 
 #tSNE降维
 print("tSNE降维结果")
