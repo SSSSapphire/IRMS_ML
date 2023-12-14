@@ -40,8 +40,8 @@ for i in range(firstList.size):
     print(firstList[i])
 
 #print("平均差与标准差")
-df_stats = df.describe().loc[['mean','std']]
-df_stats.style.format("{:.2f}")
+#df_stats = df.describe().loc[['mean','std']]
+#df_stats.style.format("{:.2f}")
 
 #归一化
 scaler = StandardScaler()
@@ -61,11 +61,11 @@ for label,x,y in zip(firstList,pca_Result[:, 0],pca_Result[:, 1]):
     plt.text(x,y,label)
 
 #组装pcaResult与firstList为DataFrame
-#pd_firstList = firstList.to_frame()
-#display(pd_firstList)
-#pcaResult_1 = pd.dataFrame(pcaReuslt, columns = "scatterIndex")
-#pcaResult_1['Identifier'] = pd_firstList
-#display(pcaResult_1)
+df_firstList = pd.DataFrame({'pointName':firstList.values})
+df_PcaLabelLocation = pd.DataFrame(pca_Result)
+df_PcaLabelLocation.columns = ['scatter_X','scatter_Y']
+df_PcaLabelLocation['Scatter_Index'] = df_firstList['pointName']
+print(df_PcaLabelLocation)
 
 #tSNE降维
 print("tSNE降维结果")
@@ -81,9 +81,9 @@ tSNE_Result = tSNE_moudle.do_tSNE(df_Normal)
 
 
 print("Kmeans聚类")
-#Kmeans_PCA = pca_moudle.do_Kmeans(pca_Result,firstList)
-Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
+Kmeans_PCA = k_means_moudle.do_Kmeans(pca_Result,firstList,df_PcaLabelLocation)
+#Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
 print("KmeansConstrained聚类")
-Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(pca_Result,firstList)
+#Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(pca_Result,firstList)
