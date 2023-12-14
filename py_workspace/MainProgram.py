@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import display
 from sklearn.preprocessing import StandardScaler
-from sklearn.impute import SimpleImputer
+from sklearn.impute import SimpleImputer    
 
 
 #excel转csv
@@ -18,17 +18,17 @@ xl_data.to_csv('1113_31S_Con.csv', index=False)
 
 #读取csv文件存为df
 df = pd.read_csv('1113_31S_Con.csv',index_col="Identifier")
-np.savetxt("transCSV.csv",df,'%.18e',delimiter=' ')
+np.savetxt("Temp/transCSV.csv",df,'%.18e',delimiter=' ')
 print("原始数据:")
 display(df)
 
 #插值填补
 print("中位数插值填补")
 imp_mid = SimpleImputer(missing_values=np.NaN,strategy='median')
-imputerDf = imp_mid.fit_transform(df)
-display(imputerDf)
+df_Impute = imp_mid.fit_transform(df)
+display(df_Impute)
 print("df.shape", df.shape)
-np.savetxt("ImputerDf.csv",imputerDf,'%.18e',delimiter=' ')
+np.savetxt("Temp/df_Impute.csv",df_Impute,'%.18e',delimiter=' ')
 
 #提取Identifier序列
 print("提取序列")
@@ -45,19 +45,19 @@ df_stats.style.format("{:.2f}")
 
 #归一化
 scaler = StandardScaler()
-Z_sk = scaler.fit_transform(imputerDf)
+df_Normal = scaler.fit_transform(df_Impute)
 print("归一化结果")
-display(Z_sk)
-np.savetxt("Normalazation.csv",Z_sk,'%.18e',delimiter=' ')
+display(df_Normal)
+np.savetxt("Temp/Normalization.csv",df_Normal,'%.18e',delimiter=' ')
 
 #PCA降维
 print("PCA降维结果")
-pcaResult = pca_moudle.do_Pca(Z_sk)
-display(pcaResult)
-print(type(pcaResult))
-plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
+pca_Result = pca_moudle.do_Pca(df_Normal)
+display(pca_Result)
+print(type(pca_Result))
+plt.scatter(pca_Result[:, 0], pca_Result[:, 1])
 plt.axis('equal')
-for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
+for label,x,y in zip(firstList,pca_Result[:, 0],pca_Result[:, 1]):
     plt.text(x,y,label)
 
 #组装pcaResult与firstList为DataFrame
@@ -69,21 +69,21 @@ for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
 
 #tSNE降维
 print("tSNE降维结果")
-tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
+tSNE_Result = tSNE_moudle.do_tSNE(df_Normal)
 
 
 #合并为series
 #transFirstListDF = firstList.to_frame()
-#transFirstListDF['index2'] = pcaResult[0]
+#transFirstListDF['index2'] = pca_Result[0]
 #transFirstListDF = transFirstListDF.set_index('index2')
 
 #display(transFirstListDF)
 
 
 print("Kmeans聚类")
-#Kmeans_PCA = pca_moudle.do_Kmeans(pcaResult,firstList)
+#Kmeans_PCA = pca_moudle.do_Kmeans(pca_Result,firstList)
 Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
 
 
 print("KmeansConstrained聚类")
-Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(pcaResult,firstList)
+Kmeans_constrained = kmeans_constrained_moudle.doKmeansConstrained(pca_Result,firstList)
