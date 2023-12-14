@@ -4,7 +4,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.metrics import calinski_harabasz_score
 from sklearn.metrics import davies_bouldin_score
 
-def do_Kmeans(X,firstList):
+def do_Kmeans(X,firstList,df_Location):
     print(firstList.index)
     n_cluster = 2
     random_state = 0
