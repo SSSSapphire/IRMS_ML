@@ -1,34 +1,46 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.metrics import calinski_harabasz_score
 from sklearn.metrics import davies_bouldin_score
 
-def do_Kmeans(X,firstList,df_Location):
-    print(firstList.index)
+def do_Kmeans(X,df_Location):
     n_cluster = 2
     random_state = 0
     cluster =  KMeans(n_clusters = n_cluster, n_init= "auto",random_state = random_state).fit(X)
     print(cluster)
+
     #查看每个样本对应的类
     pred = cluster.labels_
     pred
+
     #使用部分数据预测质心
     pre = cluster.fit_predict(X)
     pre == pred
+
     #质心
     centroid = cluster.cluster_centers_
     centroid
     centroid.shape
+
     #总距离平方和
     inertia = cluster.inertia_
     inertia
+
+    #评价系数计算
     print("轮廓系数silhouette_score(0-1，越高越好) = " +              str(silhouette_score(X,pred)))
     print("卡林斯基哈拉巴斯指数calinski_harabasz_score(越高越好) = " + str(calinski_harabasz_score(X,pred)))
     print("戴维斯布尔丁指数davies_bouldin_score(越小越好) = " +        str(davies_bouldin_score(X,pred)))
-    #print("权变矩阵contingency_matrix如下")
-    #print(contingency_matrix(X,y_pred)
-    
+
+    #预测结果分类标签名称
+    df_Pred = pd.DataFrame({'pred_index':pred})
+    df_Location['pred_index'] = df_Pred['pred_index']
+    df_cluster1 = df_Location[df_Location.pred_index < 1]
+    df_cluster2 = df_Location[df_Location.pred_index > 0]
+    print(df_cluster1)
+    print(df_cluster2)
+
     color = ["red","blue"]
     fig, ax1 = plt.subplots(1)
     tempCounter = 0
@@ -40,17 +52,16 @@ def do_Kmeans(X,firstList,df_Location):
            ,c=color[i]
            )
         if(i==0):
-            for label,x,y in zip(firstList,X[pred==0, 0],X[pred==0, 1]):
+            for label,x,y in zip(df_cluster1.Scatter_Index,X[pred==0, 0],X[pred==0, 1]):
                 plt.text(x,y,label)
-                tempCounter = tempCounter + 1
         if(i==1):
-            firstList1 = firstList[tempCounter:firstList.size] 
-            for label,x,y in zip(firstList1,X[pred==1, 0],X[pred==1, 1]):
+            for label,x,y in zip(df_cluster2.Scatter_Index,X[pred==1, 0],X[pred==1, 1]):
                 plt.text(x,y,label)
     ax1.scatter(centroid[:,0],centroid[:,1]
         ,marker="x"
         ,s=15
         ,c="black")
+    plt.axis('equal')
     plt.title('Kmeans_result')
     plt.show()
     

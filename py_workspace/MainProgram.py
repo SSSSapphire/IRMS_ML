@@ -52,23 +52,12 @@ np.savetxt("Temp/Normalization.csv",df_Normal,'%.18e',delimiter=' ')
 
 #PCA降维
 print("PCA降维结果")
-<<<<<<< HEAD
-pcaResult = pca_moudle.do_Pca(Z_sk)
-display(pcaResult)
-print(type(pcaResult))
-plt.subplot(1,2,1)
-plt.scatter(pcaResult[:, 0], pcaResult[:, 1])
-plt.axis('equal')
-plt.title('PCA_Result')
-for label,x,y in zip(firstList,pcaResult[:, 0],pcaResult[:, 1]):
-=======
 pca_Result = pca_moudle.do_Pca(df_Normal)
 display(pca_Result)
-print(type(pca_Result))
+plt.title("PCA_Result")
 plt.scatter(pca_Result[:, 0], pca_Result[:, 1])
 plt.axis('equal')
 for label,x,y in zip(firstList,pca_Result[:, 0],pca_Result[:, 1]):
->>>>>>> 612777b601a0b9b511b925b786d354c96477a204
     plt.text(x,y,label)
 
 #组装pcaResult与firstList为DataFrame
@@ -80,34 +69,11 @@ print(df_PcaLabelLocation)
 
 #tSNE降维
 print("tSNE降维结果")
-<<<<<<< HEAD
-tSNE_Result = tSNE_moudle.do_tSNE(Z_sk)
-plt.subplot(1,2,2)
-plt.scatter(tSNE_Result[:, 0],tSNE_Result[:, 1])
-plt.axis('equal')
-plt.title('tSNE_Result')
-plt.show()
-=======
 tSNE_Result = tSNE_moudle.do_tSNE(df_Normal)
->>>>>>> 612777b601a0b9b511b925b786d354c96477a204
-
-
-#合并为series
-#transFirstListDF = firstList.to_frame()
-#transFirstListDF['index2'] = pca_Result[0]
-#transFirstListDF = transFirstListDF.set_index('index2')
-
-#display(transFirstListDF)
-
 
 print("Kmeans聚类")
-<<<<<<< HEAD
-Kmeans_PCA = k_means_moudle.do_Kmeans(pcaResult,firstList)
-Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
-=======
-Kmeans_PCA = k_means_moudle.do_Kmeans(pca_Result,firstList,df_PcaLabelLocation)
+Kmeans_PCA = k_means_moudle.do_Kmeans(pca_Result,df_PcaLabelLocation)
 #Kmeans_tSNE = k_means_moudle.do_Kmeans(tSNE_Result,firstList)
->>>>>>> 612777b601a0b9b511b925b786d354c96477a204
 
 
 print("KmeansConstrained聚类")
